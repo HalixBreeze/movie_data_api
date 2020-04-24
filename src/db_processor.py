@@ -1,10 +1,32 @@
 import sqlite3
 
+def create_movie_db():
+    print('Creating Database...')
+
+    connection = sqlite3.connect('movie.sqlite')
+
+    sql = """CREATE TABLE IF NOT EXISTS movies (
+        id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+        movie_group_name TEXT NOT NULL,
+        chinese_name TEXT,
+        english_name TEXT,
+        start_time TEXT,
+        movie_age TEXT,
+        movie_play TEXT,
+        movie_language TEXT
+        )"""
+
+    cursor = connection.cursor()
+    cursor.execute(sql)
+
+    connection.commit()
+    connection.close()
+
+    print('Database Created!!')
+
 def get_movie_data():
     connection = sqlite3.connect('movie.sqlite')
-    sql = """
-        SELECT * FROM movies
-        """
+    sql = 'SELECT * FROM movies'
     cursor = connection.cursor()
     cursor.execute(sql)
     
@@ -39,7 +61,8 @@ def has_duplicated_movie_data(group_name, movie_play, movie_language):
         return False
 
 if __name__ == '__main__':
-    print(__name__)
-    print(get_movie_data())
-    print(has_duplicated_movie_data('血衛','2D數位','英文版')) # 此為存在資料
-    # print(has_duplicated_movie_data('血衛','2D數位','中文版')) # 此為不存在資料
+    create_movie_db()
+    print('__name__: ', __name__)
+    print('Movie Data: ', get_movie_data())
+    print('There is the movie "血衛2D英文版"?', has_duplicated_movie_data('血衛','2D數位','英文版')) # 此應為存在資料
+    # print('There is the movie "血衛2D中文版"?', has_duplicated_movie_data('血衛','2D數位','中文版')) # 此應為不存在資料

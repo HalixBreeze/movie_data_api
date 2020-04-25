@@ -1,5 +1,5 @@
 from requests_html import HTMLSession
-import movie_db
+import db_processor
 
 url = 'https://www.in89.com.tw/api/connect.php?cinema=taipei.in89.com.tw&method=getAllMovies&theater_code=&TheaterId=3'
 session = HTMLSession()
@@ -15,5 +15,5 @@ for movie in movies:
     movie_play = movie['movie_play_desc'].strip()
     movie_language = movie['movie_lang_desc'].strip()
 
-    if movie_db.has_duplicated_movie_data(movie_group_name, movie_play, movie_language) != True:
-        movie_db.insert_movie_data(group_name = movie_group_name, chinese_name = movie_chinese_name, english_name = movie_english_name, start_time = start_time, movie_age = movie_age, movie_play = movie_play, language = movie_language)
+    if db_processor.has_duplicated_movie_data(movie_group_name, movie_play, movie_language) != True:
+        db_processor.insert_movie_data(group_name = movie_group_name, chinese_name = movie_chinese_name, english_name = movie_english_name, start_time = start_time, movie_age = movie_age, movie_play = movie_play, language = movie_language)
